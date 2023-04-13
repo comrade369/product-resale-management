@@ -46,4 +46,10 @@ public class OwnerServiceImpl implements OwnerService {
     public List<Owner> getAllOwners() {
         return ownerRepository.findAll();
     }
+
+    @Override
+    public boolean isValidOwnerId(Long ownerId) {
+        Optional<Owner> owner =   ownerRepository.findById(ownerId);
+        return owner.isPresent();
+    }
 }

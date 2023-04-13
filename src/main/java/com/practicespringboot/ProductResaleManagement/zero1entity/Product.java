@@ -27,11 +27,12 @@ public class Product {
     @Column(nullable = false)
     private String productModel;
 
-    @Column(nullable = false)
-    private String productOwner;
+    @OneToOne
+    @JoinColumn(name = "productOwner", referencedColumnName = "ownerId")
+    private Owner productOwner;
 
     @Column(nullable = false)
-    private int productPrice;
+    private Integer productPrice;
 
     @Column(nullable = false)
     private LocalDate productPurchaseDate;

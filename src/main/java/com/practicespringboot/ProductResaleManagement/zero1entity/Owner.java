@@ -31,4 +31,8 @@ public class Owner {
 
     @Column(nullable = false)
     private String ownerPinCode;
+
+    @OneToOne
+    @JoinColumn(name = "ownerId", referencedColumnName = "productOwner")
+    private Product product;
 }

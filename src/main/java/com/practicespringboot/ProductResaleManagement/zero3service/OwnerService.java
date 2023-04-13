@@ -14,4 +14,6 @@ public interface OwnerService {
     Owner updateOwner(Owner owner);
 
     void deleteOwner(Long ownerId);
+
+    boolean isValidOwnerId(Long ownerId);
 }

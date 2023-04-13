@@ -1,11 +1,14 @@
 package com.practicespringboot.ProductResaleManagement.zero2controller;
 
+import com.practicespringboot.ProductResaleManagement.dto.ProductSearchDto;
 import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
+import com.practicespringboot.ProductResaleManagement.zero3service.OwnerService;
 import com.practicespringboot.ProductResaleManagement.zero3service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -15,11 +18,27 @@ import java.util.List;
 public class ProductController {
     private ProductService productService;
 
+    private OwnerService ownerService;
+
     // build create product REST API
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        Product savedProduct = productService.createProduct(product);
-        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+    public ResponseEntity<Object> createProduct(@RequestBody Product product) {
+        boolean isValidOwner = false;
+        if(product != null) {
+
+            if(product.getProductOwner() != null && product.getProductOwner().getOwnerId() > 0) {
+                isValidOwner = ownerService.isValidOwnerId(product.getProductOwner().getOwnerId());
+
+            }
+        }
+
+        if(isValidOwner) {
+            Product savedProduct = productService.createProduct(product);
+            return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Invalid Owner, please provide valid owener id", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     // build get product by id REST API
@@ -37,7 +56,12 @@ public class ProductController {
         List<Product> products = productService.getAllProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+    @PostMapping("/search")
+    public ResponseEntity<List<Product>> productSearch(@RequestBody ProductSearchDto productSearchRequest) {
 
+        List<Product> products = productService.productSearch(productSearchRequest);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
     // build update product REST API
     @PutMapping("{id}")
     //http://localhost:8080/api/products/1
