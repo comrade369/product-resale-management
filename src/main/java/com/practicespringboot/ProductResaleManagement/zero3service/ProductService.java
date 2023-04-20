@@ -1,20 +1,32 @@
 package com.practicespringboot.ProductResaleManagement.zero3service;
 
-import com.practicespringboot.ProductResaleManagement.dto.ProductSearchDto;
+import com.practicespringboot.ProductResaleManagement.payloads.ProductDto;
+import com.practicespringboot.ProductResaleManagement.payloads.ProductSearchDto;
 import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
 
 import java.util.List;
 
 public interface ProductService {
-    Product createProduct(Product product);
+    ProductDto createProduct(ProductDto productDto, Long ownerId);
 
-    Product getProductById(Long productId);
+    List<ProductDto> getPostByOwner(Long ownerId);
 
-    List<Product> getAllProducts();
+    List<ProductDto> getAllProducts();
 
-    Product updateProduct(Product product);
+    ProductDto getProductById(Long productId);
 
     void deleteProduct(Long productId);
 
-    List<Product> productSearch(ProductSearchDto productSearchRequest);
+    ProductDto updateProduct(ProductDto productDto, Long productId);
+
+
+//    ProductDto getProductById(Long productId);
+//
+//    List<ProductDto> getAllProducts();
+//
+//    ProductDto updateProduct(Product product, Long id);
+//
+//    void deleteProduct(Long productId);
+
+//    List<Product> productSearch(ProductSearchDto productSearchRequest);
 }

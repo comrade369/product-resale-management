@@ -6,17 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "products")
+@Table(name = "products_table")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String productName;
@@ -27,13 +28,13 @@ public class Product {
     @Column(nullable = false)
     private String productModel;
 
-    @OneToOne
-    @JoinColumn(name = "productOwner", referencedColumnName = "ownerId")
-    private Owner productOwner;
-
     @Column(nullable = false)
     private Integer productPrice;
 
     @Column(nullable = false)
-    private LocalDate productPurchaseDate;
+    private Date productPurchaseDate;
+
+    @ManyToOne
+    @JoinColumn(name = "productOwner")
+    private Owner owner;
 }

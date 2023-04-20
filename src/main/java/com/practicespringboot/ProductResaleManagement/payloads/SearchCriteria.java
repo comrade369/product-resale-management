@@ -1,4 +1,4 @@
-package com.practicespringboot.ProductResaleManagement.dto;
+package com.practicespringboot.ProductResaleManagement.payloads;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

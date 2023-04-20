@@ -1,4 +1,4 @@
-package com.practicespringboot.ProductResaleManagement.dto;
+package com.practicespringboot.ProductResaleManagement.payloads;
 
 import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
 import jakarta.persistence.criteria.CriteriaBuilder;

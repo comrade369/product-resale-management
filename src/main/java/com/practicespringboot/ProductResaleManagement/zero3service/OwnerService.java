@@ -1,19 +1,20 @@
 package com.practicespringboot.ProductResaleManagement.zero3service;
 
+import com.practicespringboot.ProductResaleManagement.payloads.OwnerDto;
 import com.practicespringboot.ProductResaleManagement.zero1entity.Owner;
 
 import java.util.List;
 
 public interface OwnerService {
-    Owner createOwner(Owner owner);
+    OwnerDto createOwner(OwnerDto ownerDto);
 
-    Owner getOwnerById(Long ownerId);
+    OwnerDto getOwnerById(Long ownerId);
 
-    List<Owner> getAllOwners();
+    List<OwnerDto> getAllOwners();
 
-    Owner updateOwner(Owner owner);
+    OwnerDto updateOwner(OwnerDto ownerDto, Long id);
 
     void deleteOwner(Long ownerId);
 
-    boolean isValidOwnerId(Long ownerId);
+//    boolean isValidOwnerId(Long ownerId);
 }

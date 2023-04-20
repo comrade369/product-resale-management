@@ -6,8 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "ownerInfo")
+@Table(name = "ownerInfo_table",
+        uniqueConstraints = @UniqueConstraint(columnNames = "ownerEmail"))
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,7 +24,7 @@ public class Owner {
     @Column(nullable = false)
     private String ownerName;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String ownerEmail;
 
     @Column(nullable = false, unique = true)
@@ -32,7 +36,6 @@ public class Owner {
     @Column(nullable = false)
     private String ownerPinCode;
 
-    @OneToOne
-    @JoinColumn(name = "ownerId", referencedColumnName = "productOwner")
-    private Product product;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Product> productList = new ArrayList<>();
 }

@@ -1,28 +1,21 @@
-package com.practicespringboot.ProductResaleManagement.dto;
+package com.practicespringboot.ProductResaleManagement.payloads;
 
 import com.practicespringboot.ProductResaleManagement.zero1entity.Owner;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSearchDto {
-
+public class ProductDto {
+    private Long id;
     private String productName;
-
-
     private String productType;
-
     private String productModel;
-
-
-    private String productOwner;
-
-    private int productPrice;
-
+    private Integer productPrice;
+    private Date productPurchaseDate;
+    private OwnerDto owner;
 }

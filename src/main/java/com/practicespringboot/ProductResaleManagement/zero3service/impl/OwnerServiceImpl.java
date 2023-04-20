@@ -1,55 +1,75 @@
 package com.practicespringboot.ProductResaleManagement.zero3service.impl;
 
+import com.practicespringboot.ProductResaleManagement.payloads.OwnerDto;
 import com.practicespringboot.ProductResaleManagement.zero1entity.Owner;
 import com.practicespringboot.ProductResaleManagement.zero3service.OwnerService;
 import com.practicespringboot.ProductResaleManagement.zero4repository.OwnerRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.practicespringboot.ProductResaleManagement.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class OwnerServiceImpl implements OwnerService {
+    @Autowired
     private OwnerRepository ownerRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
-    public Owner createOwner(Owner owner) {
-        return ownerRepository.save(owner);
+    public OwnerDto createOwner(OwnerDto ownerDto) {
+        Owner owner = this.modelMapper.map(ownerDto, Owner.class);
+        Owner addOwner = this.ownerRepository.save(owner);
+        return this.modelMapper.map(addOwner, OwnerDto.class);
     }
 
     @Override
-    public Owner updateOwner(Owner owner) {
-        Owner existingOwner = ownerRepository.findById(owner.getOwnerId()).get();
-        existingOwner.setOwnerName(owner.getOwnerName());
-        existingOwner.setOwnerEmail(owner.getOwnerEmail());
-        existingOwner.setOwnerAddress(owner.getOwnerAddress());
-        existingOwner.setOwnerPhone(owner.getOwnerPhone());
-        existingOwner.setOwnerPinCode(owner.getOwnerPinCode());
-        Owner updateOwner = ownerRepository.save(existingOwner);
-        return updateOwner;
+    public OwnerDto updateOwner(OwnerDto ownerDto, Long id) {
+        Owner owner = this.ownerRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Owner", "ownerId", id));
+        owner.setOwnerName(ownerDto.getOwnerName());
+        owner.setOwnerAddress(ownerDto.getOwnerAddress());
+        owner.setOwnerEmail(ownerDto.getOwnerEmail());
+        owner.setOwnerPhone(ownerDto.getOwnerPhone());
+        owner.setOwnerPinCode(ownerDto.getOwnerPinCode());
+        Owner owner1 = this.ownerRepository.save(owner);
+        return this.modelMapper.map(owner1, OwnerDto.class);
+
     }
 
     @Override
     public void deleteOwner(Long ownerId) {
-        ownerRepository.deleteById(ownerId);
+        Owner owner = this.ownerRepository.findById(ownerId).orElseThrow(() ->
+                new ResourceNotFoundException("Owner", "ownerId", ownerId));
+        this.ownerRepository.delete(owner);
     }
 
     @Override
-    public Owner getOwnerById(Long ownerId) {
-        Optional<Owner> optionalOwner = ownerRepository.findById(ownerId);
-        return optionalOwner.get();
+    public OwnerDto getOwnerById(Long ownerId) {
+        Owner owner = this.ownerRepository.findById(ownerId).orElseThrow(() ->
+                new ResourceNotFoundException("Owner", "ownerId", ownerId));
+        return this.modelMapper.map(owner, OwnerDto.class);
     }
 
     @Override
-    public List<Owner> getAllOwners() {
-        return ownerRepository.findAll();
+    public List<OwnerDto> getAllOwners() {
+        List<Owner> ownerList = this.ownerRepository.findAll();
+        List<OwnerDto> ownerDtoList = new ArrayList<>();
+        for (Owner ele : ownerList) {
+            ownerDtoList.add(this.modelMapper.map(ele, OwnerDto.class));
+        }
+        return ownerDtoList;
     }
 
-    @Override
-    public boolean isValidOwnerId(Long ownerId) {
-        Optional<Owner> owner =   ownerRepository.findById(ownerId);
-        return owner.isPresent();
-    }
+//    @Override
+//    public boolean isValidOwnerId(Long ownerId) {
+//        Optional<Owner> owner =   ownerRepository.findById(ownerId);
+//        return owner.isPresent();
+//    }
 }
