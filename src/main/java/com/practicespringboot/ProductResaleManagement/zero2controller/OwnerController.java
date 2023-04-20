@@ -52,9 +52,7 @@ public class OwnerController {
             , @RequestBody OwnerDto ownerDto) {
         OwnerDto updatedOwner = this.ownerService.updateOwner(ownerDto, ownerId);
         return ResponseEntity.ok(updatedOwner);
-//        ownerDto.setOwnerId(ownerId);
-//        Owner updateOwner = ownerService.updateOwner(owner);
-//        return new ResponseEntity<>(updateOwner, HttpStatus.OK);
+
     }
 
     // build Delete Owner REST API

@@ -20,13 +20,4 @@ public interface ProductService {
     ProductDto updateProduct(ProductDto productDto, Long productId);
 
 
-//    ProductDto getProductById(Long productId);
-//
-//    List<ProductDto> getAllProducts();
-//
-//    ProductDto updateProduct(Product product, Long id);
-//
-//    void deleteProduct(Long productId);
-
-//    List<Product> productSearch(ProductSearchDto productSearchRequest);
 }

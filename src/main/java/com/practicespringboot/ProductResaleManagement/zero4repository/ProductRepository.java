@@ -10,11 +10,6 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
-//   Product findByProductName(String productName);
-//
-//    Product findByProductNameAndProductType(String productName, String productType);
     List<Product> findByOwner(Owner owner);
-//
-
 
 }
