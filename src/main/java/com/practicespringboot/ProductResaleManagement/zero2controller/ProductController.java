@@ -2,6 +2,7 @@ package com.practicespringboot.ProductResaleManagement.zero2controller;
 
 import com.practicespringboot.ProductResaleManagement.payloads.ApiMessage;
 import com.practicespringboot.ProductResaleManagement.payloads.ProductDto;
+import com.practicespringboot.ProductResaleManagement.payloads.ProductResponse;
 import com.practicespringboot.ProductResaleManagement.payloads.ProductSearchDto;
 import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
 import com.practicespringboot.ProductResaleManagement.zero3service.OwnerService;
@@ -38,12 +39,12 @@ public class ProductController {
         return new ResponseEntity<>(productDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/products") // GET ALL PRODUCTS.
-    public ResponseEntity<List<ProductDto>> getAllProducts(
+    @GetMapping("/pages") // GET ALL PRODUCTS.
+    public ResponseEntity<List<ProductDto>> getPages(
             @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
             @RequestParam(value = "pageSize", defaultValue = "3", required = false) Integer pageSize
     ) {
-        List<ProductDto> productDtoList = this.productService.getAllProducts(pageNumber, pageSize);
+        List<ProductDto> productDtoList = this.productService.getPages(pageNumber, pageSize);
         return ResponseEntity.ok(productDtoList);
     }
 
@@ -64,6 +65,22 @@ public class ProductController {
             , @PathVariable Long productId) {
         ProductDto updatedProductDto = this.productService.updateProduct(productDto, productId);
         return ResponseEntity.ok(updatedProductDto);
+    }
+
+    @GetMapping("/pagesInfo")
+    public ResponseEntity<ProductResponse> getPagesInfo(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "3", required = false) Integer pageSize
+    ) {
+        ProductResponse productResponse = this.productService.getPageInfo(pageNumber, pageSize);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        List<ProductDto> productDtoList = this.productService.getAllProducts();
+        return new ResponseEntity<>(productDtoList, HttpStatus.OK);
     }
 
 }

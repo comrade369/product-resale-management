@@ -1,10 +1,7 @@
 package com.practicespringboot.ProductResaleManagement.zero3service.impl;
 
 import com.practicespringboot.ProductResaleManagement.exceptions.ResourceNotFoundException;
-import com.practicespringboot.ProductResaleManagement.payloads.ProductDto;
-import com.practicespringboot.ProductResaleManagement.payloads.ProductSearchDto;
-import com.practicespringboot.ProductResaleManagement.payloads.ProductSpecification;
-import com.practicespringboot.ProductResaleManagement.payloads.SearchCriteria;
+import com.practicespringboot.ProductResaleManagement.payloads.*;
 import com.practicespringboot.ProductResaleManagement.zero1entity.Owner;
 import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
 import com.practicespringboot.ProductResaleManagement.zero4repository.OwnerRepository;
@@ -15,14 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -59,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProducts(Integer pageNumber, Integer pageSize) {
+    public List<ProductDto> getPages(Integer pageNumber, Integer pageSize) {
         Pageable page = PageRequest.of(pageNumber, pageSize);
         Page<Product> pages = this.productRepository.findAll(page);
         List<Product> productList = pages.getContent();
@@ -72,6 +66,14 @@ public class ProductServiceImpl implements ProductService {
         Product product = this.productRepository.findById(productId).orElseThrow(() ->
                 new ResourceNotFoundException("Product", "productId", productId));
         return this.modelMapper.map(product, ProductDto.class);
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts() {
+        List<Product> productList = this.productRepository.findAll();
+        List<ProductDto> productDtoList = productList.stream().map((product) ->
+                this.modelMapper.map(product, ProductDto.class)).toList();
+        return productDtoList;
     }
 
     @Override
@@ -94,5 +96,24 @@ public class ProductServiceImpl implements ProductService {
         Product updatedProduct = this.productRepository.save(product);
         return this.modelMapper.map(updatedProduct, ProductDto.class);
 
+    }
+
+    @Override
+    public ProductResponse getPageInfo(Integer pageNumber, Integer pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        Page<Product> productPage = this.productRepository.findAll(page);
+        List<Product> productList = productPage.getContent();
+        List<ProductDto> productDtoList = productList.stream().map((product) ->
+                this.modelMapper.map(product, ProductDto.class)).toList();
+
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setProducts(productDtoList);
+        productResponse.setPageNumber(productPage.getNumber());
+        productResponse.setPageSize(productPage.getSize());
+        productResponse.setTotalPages(productPage.getTotalPages());
+        productResponse.setTotalElements((int) (productPage.getTotalElements()));
+        productResponse.setLastPage(productPage.isLast());
+
+        return productResponse;
     }
 }
