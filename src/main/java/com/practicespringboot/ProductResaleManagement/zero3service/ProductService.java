@@ -11,7 +11,7 @@ public interface ProductService {
 
     List<ProductDto> getPostByOwner(Long ownerId);
 
-    List<ProductDto> getAllProducts();
+    List<ProductDto> getAllProducts(Integer pageNumber, Integer pageSize);
 
     ProductDto getProductById(Long productId);
 

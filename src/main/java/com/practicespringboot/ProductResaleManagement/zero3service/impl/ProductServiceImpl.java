@@ -12,6 +12,9 @@ import com.practicespringboot.ProductResaleManagement.zero4repository.ProductRep
 import com.practicespringboot.ProductResaleManagement.zero3service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
@@ -56,8 +59,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProducts() {
-        List<Product> productList = this.productRepository.findAll();
+    public List<ProductDto> getAllProducts(Integer pageNumber, Integer pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize);
+        Page<Product> pages = this.productRepository.findAll(page);
+        List<Product> productList = pages.getContent();
         List<ProductDto> productDtoList = productList.stream().map((product) -> this.modelMapper.map(product, ProductDto.class)).toList();
         return productDtoList;
     }

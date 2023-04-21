@@ -39,8 +39,11 @@ public class ProductController {
     }
 
     @GetMapping("/products") // GET ALL PRODUCTS.
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        List<ProductDto> productDtoList = this.productService.getAllProducts();
+    public ResponseEntity<List<ProductDto>> getAllProducts(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "3", required = false) Integer pageSize
+    ) {
+        List<ProductDto> productDtoList = this.productService.getAllProducts(pageNumber, pageSize);
         return ResponseEntity.ok(productDtoList);
     }
 
