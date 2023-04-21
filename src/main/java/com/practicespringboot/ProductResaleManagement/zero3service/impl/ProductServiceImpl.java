@@ -7,11 +7,13 @@ import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
 import com.practicespringboot.ProductResaleManagement.zero4repository.OwnerRepository;
 import com.practicespringboot.ProductResaleManagement.zero4repository.ProductRepository;
 import com.practicespringboot.ProductResaleManagement.zero3service.ProductService;
+import org.hibernate.boot.model.source.spi.Sortable;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 
@@ -84,6 +86,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponse sortingProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+        Sort sort = null;
+        if (sortDir.equalsIgnoreCase("asc")) {
+            sort = Sort.by(sortBy).ascending();
+        }
+        else {
+            sort = Sort.by(sortBy).descending();
+        }
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        Page<Product> productPage = this.productRepository.findAll(pageable);
+        List<Product> productList = productPage.getContent();
+        List<ProductDto> productDtoList = productList.stream().map((product) ->
+                this.modelMapper.map(product, ProductDto.class)).toList();
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setLastPage(productPage.isLast());
+        productResponse.setTotalPages(productPage.getTotalPages());
+        productResponse.setProducts(productDtoList);
+        productResponse.setPageSize(productPage.getSize());
+        productResponse.setPageNumber(productPage.getNumber());
+        productResponse.setTotalElements((int) (productPage.getTotalElements()));
+        return  productResponse;
+
+    }
+
+    @Override
     public ProductDto updateProduct(ProductDto productDto, Long productId) {
         Product product = this.productRepository.findById(productId).orElseThrow(() ->
                 new ResourceNotFoundException("Product", "productId", productId));
@@ -97,6 +125,7 @@ public class ProductServiceImpl implements ProductService {
         return this.modelMapper.map(updatedProduct, ProductDto.class);
 
     }
+
 
     @Override
     public ProductResponse getPageInfo(Integer pageNumber, Integer pageSize) {

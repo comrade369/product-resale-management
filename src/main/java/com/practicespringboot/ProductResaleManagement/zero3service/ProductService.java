@@ -15,7 +15,7 @@ public interface ProductService {
     ProductDto getProductById(Long productId);
     List<ProductDto> getAllProducts();
     void deleteProduct(Long productId);
-
+    ProductResponse sortingProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
     ProductDto updateProduct(ProductDto productDto, Long productId);
 
     ProductResponse getPageInfo(Integer pageNumber, Integer pageSize);
