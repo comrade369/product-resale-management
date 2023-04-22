@@ -21,4 +21,8 @@ public class ProductSearchDto {
 
     private int productPrice;
 
+    private int productPriceLowerLimit;
+
+    private int productPriceUpperLimit;
+
 }

@@ -17,6 +17,13 @@ public interface ProductService {
     void deleteProduct(Long productId);
     ProductResponse sortingProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
     ProductDto updateProduct(ProductDto productDto, Long productId);
+    List<ProductDto> searchProductName(String keyword);
+    List<ProductDto> searchProductModel(String keyword);
 
+    List<ProductDto> searchProductType(String keyword);
+
+    List<ProductDto> searchProductPrice(Integer price);
+
+    List<ProductDto> searchProductNameByQuery(String keyword);
     ProductResponse getPageInfo(Integer pageNumber, Integer pageSize);
 }

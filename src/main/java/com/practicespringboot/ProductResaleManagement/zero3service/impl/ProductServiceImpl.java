@@ -7,7 +7,6 @@ import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
 import com.practicespringboot.ProductResaleManagement.zero4repository.OwnerRepository;
 import com.practicespringboot.ProductResaleManagement.zero4repository.ProductRepository;
 import com.practicespringboot.ProductResaleManagement.zero3service.ProductService;
-import org.hibernate.boot.model.source.spi.Sortable;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -119,11 +118,52 @@ public class ProductServiceImpl implements ProductService {
         product.setProductModel(productDto.getProductModel());
         product.setProductName(productDto.getProductName());
         product.setProductPrice(productDto.getProductPrice());
-        product.setProductModel(productDto.getProductModel());
+        product.setProductType(productDto.getProductType());
 
         Product updatedProduct = this.productRepository.save(product);
         return this.modelMapper.map(updatedProduct, ProductDto.class);
 
+    }
+
+    @Override
+    public List<ProductDto> searchProductName(String keyword) {
+        List<Product> productList = this.productRepository.findByProductNameContaining(keyword);
+        List<ProductDto> productDtoList = productList.stream().map((product) ->
+                this.modelMapper.map(product, ProductDto.class)).toList();
+        return productDtoList;
+    }
+
+    @Override
+    public List<ProductDto> searchProductModel(String keyword) {
+        List<Product> productList = this.productRepository.findByProductModelContaining(keyword);
+        List<ProductDto> productDtoList = productList.stream().map((product) ->
+                this.modelMapper.map(product, ProductDto.class)).toList();
+        return productDtoList;
+
+    }
+
+    @Override
+    public List<ProductDto> searchProductType(String keyword) {
+        List<Product> productList = this.productRepository.findByProductTypeContaining(keyword);
+        List<ProductDto> productDtoList = productList.stream().map((product) ->
+                this.modelMapper.map(product, ProductDto.class)).toList();
+        return productDtoList;
+    }
+
+    @Override
+    public List<ProductDto> searchProductPrice(Integer price) {
+        List<Product> productList = this.productRepository.findByProductPriceLessThan(price);
+        List<ProductDto> productDtoList = productList.stream().map((product) ->
+                this.modelMapper.map(product, ProductDto.class)).toList();
+        return productDtoList;
+
+    }
+
+    @Override
+    public List<ProductDto> searchProductNameByQuery(String keyword) {
+        List<Product> productList = this.productRepository.searchByProductName("%" + keyword + "%");
+        List<ProductDto> productDtoList = productList.stream().map((product) -> this.modelMapper.map(product, ProductDto.class)).toList();
+        return productDtoList;
     }
 
 

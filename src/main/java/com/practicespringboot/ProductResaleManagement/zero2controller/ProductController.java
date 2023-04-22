@@ -94,4 +94,40 @@ public class ProductController {
         return ResponseEntity.ok(productResponse);
     }
 
+    @GetMapping("/productName/search/{keyword}")
+    public ResponseEntity<List<ProductDto>> searchProductByName(@PathVariable String keyword) {
+        List<ProductDto> productDtoList = this.productService.searchProductName(keyword);
+        return ResponseEntity.ok(productDtoList);
+    }
+
+    @GetMapping("productModel/search/{keyword}")
+    public ResponseEntity<List<ProductDto>> searchProductByModel(@PathVariable String keyword) {
+        List<ProductDto> productDtoList = this.productService.searchProductModel(keyword);
+        return ResponseEntity.ok(productDtoList);
+    }
+
+    @GetMapping("productPrice/search/{price}")
+    public ResponseEntity<List<ProductDto>> searchProductByPrice(@PathVariable Integer price) {
+        List<ProductDto> productDtoList = this.productService.searchProductPrice(price);
+        return ResponseEntity.ok(productDtoList);
+    }
+
+//    @PostMapping("/product-details")
+//    public ResponseEntity<List<ProductDto>> productDetails(@RequestBody ProductSearchDto dto) {
+//        List<ProductDto> productDtoList = this.productService.searchProductPrice(price);
+//        return ResponseEntity.ok(productDtoList);
+//    }
+
+    @GetMapping("productType/search/{keyword}")
+    public ResponseEntity<List<ProductDto>> searchProductByType(@PathVariable String keyword) {
+        List<ProductDto> productDtoList = this.productService.searchProductType(keyword);
+        return ResponseEntity.ok(productDtoList);
+    }
+
+    @GetMapping("/productName/query/{keyword}")
+    public ResponseEntity<List<ProductDto>> searchProductNameByQuery(@PathVariable String keyword) {
+        List<ProductDto> productDtoList = this.productService.searchProductNameByQuery(keyword);
+        return new ResponseEntity<>(productDtoList, HttpStatus.OK);
+    }
+
 }
