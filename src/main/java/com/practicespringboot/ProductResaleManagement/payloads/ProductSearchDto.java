@@ -17,12 +17,12 @@ public class ProductSearchDto {
     private String productModel;
 
 
-    private String productOwner;
+    private OwnerDto productOwner;
 
-    private int productPrice;
+    private Integer productPrice;
 
-    private int productPriceLowerLimit;
-
-    private int productPriceUpperLimit;
+//    private Integer productPriceLowerLimit;
+//
+//    private Integer productPriceUpperLimit;
 
 }

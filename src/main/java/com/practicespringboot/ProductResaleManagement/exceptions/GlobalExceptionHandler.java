@@ -16,19 +16,19 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+   // @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiMessage> resourceNotFoundException(ResourceNotFoundException ex) {
         String message = ex.getMessage();
         ApiMessage apiMessage = new ApiMessage(message, false);
         return new ResponseEntity<>(apiMessage, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
+  //  @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> httpMessageNotReadableException(HttpMessageNotReadableException ex) {
         return new ResponseEntity<>("Please entry the value for the key !!!", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+   // @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> methodArgumentNotValid(MethodArgumentNotValidException ex)
     {
         Map<String, String> errors = new HashMap<>();
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    //@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<String> sqlIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
         return new ResponseEntity<>("Value of entry is already taken !!!", HttpStatus.BAD_REQUEST);
     }

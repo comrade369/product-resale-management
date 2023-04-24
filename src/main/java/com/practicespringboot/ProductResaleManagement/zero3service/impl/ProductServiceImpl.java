@@ -13,23 +13,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import lombok.AllArgsConstructor;
 
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepository productRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
     private OwnerRepository ownerRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
         public ProductDto createProduct(ProductDto productDto, Long ownerId) {
@@ -184,5 +186,52 @@ public class ProductServiceImpl implements ProductService {
         productResponse.setLastPage(productPage.isLast());
 
         return productResponse;
+    }
+
+    @Override
+    public List<ProductDto> productSearch(ProductSearchDto productSearchDto) {
+        List<Product> results = new ArrayList<>();
+        List<ProductSpecification> allSpecs = new ArrayList<>();
+        if (productSearchDto.getProductName() != null && !productSearchDto.getProductName().trim().isEmpty()) {
+            ProductSpecification productNameSpec = new ProductSpecification(new SearchCriteria("productName", ":", productSearchDto.getProductName()));
+            allSpecs.add(productNameSpec);
+        }
+
+        if (productSearchDto.getProductType() != null && !productSearchDto.getProductType().trim().isEmpty()) {
+            ProductSpecification productTypeSpec = new ProductSpecification(new SearchCriteria("productType", ":", productSearchDto.getProductType()));
+            allSpecs.add(productTypeSpec);
+        }
+
+        if (productSearchDto.getProductModel() != null && !productSearchDto.getProductModel().trim().isEmpty()) {
+            ProductSpecification productModelSpec = new ProductSpecification(new SearchCriteria("productModel", ":", productSearchDto.getProductModel()));
+            allSpecs.add(productModelSpec);
+        }
+
+        if (productSearchDto.getProductPrice() != null) {
+            ProductSpecification productPriceSec = new ProductSpecification(new SearchCriteria("productPrice", ":", productSearchDto.getProductPrice()));
+            allSpecs.add(productPriceSec);
+        }
+
+        if (productSearchDto.getProductOwner() != null) {
+            ProductSpecification productOwnerSpec = new ProductSpecification(new SearchCriteria("productOwner.ownerName", ":", productSearchDto.getProductOwner()));
+            allSpecs.add(productOwnerSpec);
+        }
+
+        if (!allSpecs.isEmpty()) {
+            Specification<Product> specifications = Specification.where(allSpecs.get(0));
+            for (ProductSpecification spec : allSpecs) {
+                specifications = specifications.and(spec);
+            }
+
+            results = productRepository.findAll(specifications);
+        }
+        else {
+            results = productRepository.findAll();
+        }
+        List<ProductDto> productDtoList = new ArrayList<>();
+        for (int i = 0; i < results.size(); i += 1) {
+            productDtoList.add(this.modelMapper.map(results.get(i), ProductDto.class));
+        }
+        return productDtoList;
     }
 }

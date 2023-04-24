@@ -1,14 +1,11 @@
 package com.practicespringboot.ProductResaleManagement.zero2controller;
 
-import com.practicespringboot.ProductResaleManagement.payloads.ApiMessage;
-import com.practicespringboot.ProductResaleManagement.payloads.ProductDto;
-import com.practicespringboot.ProductResaleManagement.payloads.ProductResponse;
-import com.practicespringboot.ProductResaleManagement.payloads.ProductSearchDto;
+import com.practicespringboot.ProductResaleManagement.config.AppConstants;
+import com.practicespringboot.ProductResaleManagement.payloads.*;
 import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
-import com.practicespringboot.ProductResaleManagement.zero3service.OwnerService;
 import com.practicespringboot.ProductResaleManagement.zero3service.ProductService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
-@RequestMapping("api/")
+@RequestMapping("/api")
 public class ProductController {
+
     @Autowired
     private ProductService productService;
 
@@ -85,10 +82,10 @@ public class ProductController {
 
     @GetMapping("/sorting")
     public ResponseEntity<ProductResponse> sortingProducts(
-            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "3", required = false) Integer pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
+            @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR, required = false) String sortDir
     ) {
         ProductResponse productResponse = this.productService.sortingProducts(pageNumber, pageSize, sortBy, sortDir);
         return ResponseEntity.ok(productResponse);
@@ -100,25 +97,19 @@ public class ProductController {
         return ResponseEntity.ok(productDtoList);
     }
 
-    @GetMapping("productModel/search/{keyword}")
+    @GetMapping("/productModel/search/{keyword}")
     public ResponseEntity<List<ProductDto>> searchProductByModel(@PathVariable String keyword) {
         List<ProductDto> productDtoList = this.productService.searchProductModel(keyword);
         return ResponseEntity.ok(productDtoList);
     }
 
-    @GetMapping("productPrice/search/{price}")
+    @GetMapping("/productPrice/search/{price}")
     public ResponseEntity<List<ProductDto>> searchProductByPrice(@PathVariable Integer price) {
         List<ProductDto> productDtoList = this.productService.searchProductPrice(price);
         return ResponseEntity.ok(productDtoList);
     }
 
-//    @PostMapping("/product-details")
-//    public ResponseEntity<List<ProductDto>> productDetails(@RequestBody ProductSearchDto dto) {
-//        List<ProductDto> productDtoList = this.productService.searchProductPrice(price);
-//        return ResponseEntity.ok(productDtoList);
-//    }
-
-    @GetMapping("productType/search/{keyword}")
+    @GetMapping("/productType/search/{keyword}")
     public ResponseEntity<List<ProductDto>> searchProductByType(@PathVariable String keyword) {
         List<ProductDto> productDtoList = this.productService.searchProductType(keyword);
         return ResponseEntity.ok(productDtoList);
@@ -129,5 +120,15 @@ public class ProductController {
         List<ProductDto> productDtoList = this.productService.searchProductNameByQuery(keyword);
         return new ResponseEntity<>(productDtoList, HttpStatus.OK);
     }
+
+
+    @PostMapping("/search")
+    public ResponseEntity<List<ProductDto>> productSearch(@RequestBody ProductSearchDto productSearchDto) {
+        List<ProductDto> products = this.productService.productSearch(productSearchDto);
+
+        return ResponseEntity.ok(products);
+
+    }
+
 
 }
