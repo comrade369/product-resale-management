@@ -1,7 +1,7 @@
-package com.practicespringboot.ProductResaleManagement.zero3service;
+package com.practicespringboot.ProductResaleManagement.service;
 
+import com.practicespringboot.ProductResaleManagement.entity.Owner;
 import com.practicespringboot.ProductResaleManagement.payloads.OwnerDto;
-import com.practicespringboot.ProductResaleManagement.zero1entity.Owner;
 
 import java.util.List;
 

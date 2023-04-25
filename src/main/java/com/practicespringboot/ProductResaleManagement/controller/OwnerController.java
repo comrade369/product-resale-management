@@ -1,9 +1,10 @@
-package com.practicespringboot.ProductResaleManagement.zero2controller;
+package com.practicespringboot.ProductResaleManagement.controller;
 
+import com.practicespringboot.ProductResaleManagement.entity.Owner;
 import com.practicespringboot.ProductResaleManagement.payloads.ApiMessage;
 import com.practicespringboot.ProductResaleManagement.payloads.OwnerDto;
-import com.practicespringboot.ProductResaleManagement.zero1entity.Owner;
-import com.practicespringboot.ProductResaleManagement.zero3service.OwnerService;
+import com.practicespringboot.ProductResaleManagement.service.OwnerService;
+
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class OwnerController {
     @DeleteMapping("{id}")
     public ResponseEntity<ApiMessage> deleteUser(@PathVariable("id") Long ownerId) {
         this.ownerService.deleteOwner(ownerId);
-        return new ResponseEntity<>(new ApiMessage("Owner Deleted Successfully", true), HttpStatus.OK);
+        return new ResponseEntity<ApiMessage>(new ApiMessage("Owner Deleted Successfully", true), HttpStatus.OK);
     }
 
 }

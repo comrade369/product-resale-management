@@ -1,6 +1,5 @@
 package com.practicespringboot.ProductResaleManagement.payloads;
 
-import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -9,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+
+import com.practicespringboot.ProductResaleManagement.entity.Product;
 
 @Data
 @NoArgsConstructor

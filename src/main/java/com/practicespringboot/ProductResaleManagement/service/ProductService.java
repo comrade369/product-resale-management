@@ -1,9 +1,9 @@
-package com.practicespringboot.ProductResaleManagement.zero3service;
+package com.practicespringboot.ProductResaleManagement.service;
 
 import com.practicespringboot.ProductResaleManagement.payloads.ProductResponse;
+import com.practicespringboot.ProductResaleManagement.entity.Product;
 import com.practicespringboot.ProductResaleManagement.payloads.ProductDto;
 import com.practicespringboot.ProductResaleManagement.payloads.ProductSearchDto;
-import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
 
 import java.util.List;
 

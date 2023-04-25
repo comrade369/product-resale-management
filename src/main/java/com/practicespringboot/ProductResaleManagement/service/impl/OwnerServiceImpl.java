@@ -1,12 +1,14 @@
-package com.practicespringboot.ProductResaleManagement.zero3service.impl;
+package com.practicespringboot.ProductResaleManagement.service.impl;
 
 import com.practicespringboot.ProductResaleManagement.payloads.OwnerDto;
-import com.practicespringboot.ProductResaleManagement.zero1entity.Owner;
-import com.practicespringboot.ProductResaleManagement.zero3service.OwnerService;
-import com.practicespringboot.ProductResaleManagement.zero4repository.OwnerRepository;
+import com.practicespringboot.ProductResaleManagement.repository.OwnerRepository;
+import com.practicespringboot.ProductResaleManagement.service.OwnerService;
+
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.practicespringboot.ProductResaleManagement.entity.Owner;
 import com.practicespringboot.ProductResaleManagement.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 

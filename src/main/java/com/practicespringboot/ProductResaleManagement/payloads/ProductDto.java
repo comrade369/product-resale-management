@@ -1,11 +1,12 @@
 package com.practicespringboot.ProductResaleManagement.payloads;
 
-import com.practicespringboot.ProductResaleManagement.zero1entity.Owner;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
+import com.practicespringboot.ProductResaleManagement.entity.Owner;
 
 @Data
 @NoArgsConstructor

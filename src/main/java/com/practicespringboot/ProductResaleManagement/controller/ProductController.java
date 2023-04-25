@@ -1,9 +1,10 @@
-package com.practicespringboot.ProductResaleManagement.zero2controller;
+package com.practicespringboot.ProductResaleManagement.controller;
 
 import com.practicespringboot.ProductResaleManagement.config.AppConstants;
+import com.practicespringboot.ProductResaleManagement.entity.Product;
 import com.practicespringboot.ProductResaleManagement.payloads.*;
-import com.practicespringboot.ProductResaleManagement.zero1entity.Product;
-import com.practicespringboot.ProductResaleManagement.zero3service.ProductService;
+import com.practicespringboot.ProductResaleManagement.service.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;

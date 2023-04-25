@@ -1,4 +1,4 @@
-package com.practicespringboot.ProductResaleManagement.zero1entity;
+package com.practicespringboot.ProductResaleManagement.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
